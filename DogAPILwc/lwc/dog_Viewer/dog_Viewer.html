@@ -1,0 +1,96 @@
+<template>
+	<lightning-card>
+		<div class="slds-form-element__control">
+			<div class="slds-select_container">
+				<lightning-layout>
+					<lightning-layout-item padding="around-small" size="3">
+						<lightning-combobox
+							name="selectdogBreed"
+							label=""
+							varient="label-hidden"
+							value={selectedDogBreed}
+							placeholder="Select a Breed"
+							options={options}
+							onchange={handleDogBreedSelection} 
+						></lightning-combobox>
+					</lightning-layout-item>
+					<template if:true={subBreedFound} >
+						<lightning-layout-item padding="around-small" size="3">
+							<lightning-combobox
+								name="selectdogBreed"
+								label=""
+								value={selectedDogsubBreed}
+								placeholder="Select a Sub-Breed"
+								options={subBreedoptions}
+								onchange={handleDogSubBreedSelection} 
+							></lightning-combobox>
+						</lightning-layout-item>
+					</template>
+					
+					<lightning-layout-item padding="around-small" size="3">
+						<div class="header-column" style="padding-top: 20px;">
+							<lightning-button variant="brand-outline" label="Get Dogs!"
+								title="Primary action with lighter look" onclick={handleGetDogs}
+								class="slds-m-left_x-small"></lightning-button>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+		</div>
+        <div class="slds-grid slds-gutters">
+			<lightning-layout>
+				<lightning-layout-item padding="around-small" size="12">
+					<lightning-tabset>
+						<lightning-tab label="Dogs!">
+							<lightning-layout multiple-rows	>
+							<template for:each={images} for:item="image" for:index="index">
+									<lightning-layout-item padding="around-small" 
+										size="2" key={image} data-id={index} 
+										onclick={handleAddtoFav}>
+										<div style="box-shadow: 5px 5px 5px #ccc;">
+										<lightning-card >
+											<div class="slds-p-horizontal_small">
+												<img src={image} style="height: 250px; width: 200px;"/>
+											</div>
+											<div slot="footer" class="slds-text-title_caps">
+												{selectedDogBreed}&nbsp;{selectedDogsubBreed}
+											</div>
+										</lightning-card>
+										</div>
+									</lightning-layout-item>
+								</template>
+							</lightning-layout>
+						</lightning-tab>
+						<lightning-tab label="Favorites" title="Favorites">
+							<lightning-layout multiple-rows	>
+								<template for:each={favImageList} for:item="favImage" for:index="index">
+									<lightning-layout-item padding="around-small" 
+										size="3" key={favImage.Id} data-id={index} 
+										onclick={handleFavClick}>
+										<div style="box-shadow: 5px 5px 5px #ccc;">
+										<lightning-card >
+											<div class="slds-p-horizontal_small">
+												<img src={favImage.Image_Link__c} style="height: 250px; width: 200px;"/>
+											</div>
+											<div slot="footer" class="slds-text-title_caps">
+												<lightning-layout >
+													<lightning-layout-item size="9">
+														<div>{favImage.Breed_Name__c}&nbsp;{favImage.sub_Breed__c}</div>
+													</lightning-layout-item>
+													<lightning-layout-item size="3">
+														<div><img src={favIcon} style="height:20px"/></div>
+													</lightning-layout-item>
+												</lightning-layout>
+											</div>
+										</lightning-card>
+										</div>
+									</lightning-layout-item>
+								</template>
+							</lightning-layout>
+						</lightning-tab>
+					</lightning-tabset>
+				</lightning-layout-item>
+			</lightning-layout>
+   		</div>
+	</lightning-card>
+</template>
